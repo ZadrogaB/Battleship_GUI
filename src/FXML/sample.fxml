@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -18,7 +21,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Pane prefHeight="704.0" prefWidth="557.0">
+      <Pane fx:id="primaryStage" prefHeight="704.0" prefWidth="557.0">
          <children>
             <ImageView fx:id="backgroudPhoto" fitHeight="704.0" fitWidth="508.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
@@ -183,7 +186,7 @@
                </effect>
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="2.0" fill="#00a9ff" height="25.0" onMouseClicked="#onMouseClickedRectangle" stroke="BLACK" strokeType="INSIDE" visible="false" width="25.0" />
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00a9ff" height="25.0" onMouseClicked="#onMouseClickedRectangle" stroke="BLACK" strokeType="INSIDE" visible="false" width="25.0" GridPane.columnIndex="1" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00aaff" height="25.0" onMouseClicked="#onMouseClickedRectangle" stroke="BLACK" strokeType="INSIDE" visible="false" width="25.0" GridPane.columnIndex="1" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00a9ff" height="25.0" onMouseClicked="#onMouseClickedRectangle" stroke="BLACK" strokeType="INSIDE" visible="false" width="25.0" GridPane.columnIndex="2" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00a9ff" height="25.0" onMouseClicked="#onMouseClickedRectangle" stroke="BLACK" strokeType="INSIDE" visible="false" width="25.0" GridPane.columnIndex="3" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00a9ff" height="25.0" onMouseClicked="#onMouseClickedRectangle" stroke="BLACK" strokeType="INSIDE" visible="false" width="25.0" GridPane.rowIndex="1" />
@@ -287,6 +290,27 @@
             <Button fx:id="newGameButton" layoutX="171.0" layoutY="328.0" mnemonicParsing="false" onMouseClicked="#onMouseClickedNewGame" prefHeight="31.0" prefWidth="163.0" text="New Game" />
             <Button fx:id="horizontalButton" layoutX="398.0" layoutY="145.0" mnemonicParsing="false" onMouseClicked="#onMouseClickedHorizontal" prefHeight="25.0" prefWidth="96.0" text="horizontal" />
             <Button fx:id="visibleTargetsButton" layoutX="398.0" layoutY="145.0" mnemonicParsing="false" onMouseClicked="#onMouseClickedVisibleTargetsButton" prefHeight="25.0" prefWidth="96.0" text="visible targets" visible="false" />
+            <MenuBar layoutX="-8.0" prefHeight="25.0" prefWidth="515.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <Button fx:id="restartButton" layoutX="420.0" layoutY="177.0" mnemonicParsing="false" onMouseClicked="#onMouseClickedRestartButton" text="Restart" />
          </children>
       </Pane>
    </children>

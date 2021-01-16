@@ -2,7 +2,6 @@ package FXML;
 
 import company.GameController;
 import company.Ship;
-import company.Shooter;
 import company.UnitPosition;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -31,10 +30,14 @@ public class Controller {
     private ImageView backgroudPhoto;
     @FXML
     private Button visibleTargetsButton;
+    @FXML
+    private Button restartButton;
 
     private GameController gameController = new GameController();
     private List<Ship> playerShips = gameController.playerShips;
     private List<Ship> computerShips = gameController.computerShips;
+    private List<Rectangle> shotRectanglesPlayer = new ArrayList<>();
+    private List<Rectangle> shotRectanglesComputer = new ArrayList<>();
     private int numberOfLoops = 0;
     private boolean isHorizontal=true;
     private boolean areTargetsVisible=false;
@@ -120,6 +123,7 @@ public class Controller {
         }
 
         if (numberOfLoops < playerShips.size()) {
+            System.out.println("playerShip.size() = " + playerShips.size() + "\ncomputerShips.size() = " + computerShips.size());
             Ship shipPlayer = playerShips.get(numberOfLoops);
             Ship shipComputer = computerShips.get(numberOfLoops);
 
@@ -130,7 +134,7 @@ public class Controller {
                 numberOfLoops--;
             } else {
                 for (UnitPosition unitPosition : shipPlayer.getPositions()) {                     // Kolorowanie pól ze statkami
-                    System.out.println("Ship positions row and column = " + unitPosition.getRow() + "," + unitPosition.getColumn());
+//                    System.out.println("Ship positions row and column = " + unitPosition.getRow() + "," + unitPosition.getColumn());
                     int shipRow = unitPosition.getRow();
                     int shipColumn = unitPosition.getColumn();
 
@@ -200,6 +204,7 @@ public class Controller {
                 if (columnIndex == column && rowIndex == row) {
                     try {
                         Rectangle rectangle = (Rectangle) node;
+                        shotRectanglesPlayer.add(rectangle);
                         if(isHit) {
                             rectangle.setFill(Color.RED);
                             rectangle.disableProperty().set(true);
@@ -226,6 +231,7 @@ public class Controller {
                 if (columnIndex == gameController.getComputerShot().getColumn() && rowIndex == gameController.getComputerShot().getRow()) {
                     try {
                         Rectangle rectangle = (Rectangle) node;
+                        shotRectanglesComputer.add(rectangle);
                         if(isHit) {
                             rectangle.setFill(Color.RED);
                         } else {
@@ -236,6 +242,93 @@ public class Controller {
                 }
             }
         }
+    }
+
+    public void onMouseClickedRestartButton() {
+
+       Color color = Color.web("#00c5ff");
+
+        for (int i = 0; i < computerShips.size(); i++) {
+            Ship shipComputer = computerShips.get(i);
+            for (UnitPosition unitPosition : shipComputer.getPositions()) {        ////////////////POLA KOMPUTERA KOLOROWE
+                int shipRow = unitPosition.getRow();
+                int shipColumn = unitPosition.getColumn();
+
+                ObservableList<Node> childrenComputer = gridPaneTargets.getChildren();    //Kolorowanie pól komputera
+                for (Node node : childrenComputer) {
+                    Integer columnIndex = GridPane.getColumnIndex(node);
+                    Integer rowIndex = GridPane.getRowIndex(node);
+
+                    if (columnIndex == null)
+                        columnIndex = 0;
+                    if (rowIndex == null)
+                        rowIndex = 0;
+
+                    if (columnIndex == shipColumn && rowIndex == shipRow) {
+                        try {
+                            Rectangle rectangle = (Rectangle) node;
+                            rectangle.disableProperty().set(false);
+                            rectangle.setFill(color);
+                        } catch (RuntimeException exception) {
+                        }
+                    }
+                }
+
+            } ////////////////POLA KOMPUTERA KOLOROWE
+        }
+
+        for(Rectangle rectangle : shotRectanglesPlayer){
+            rectangle.setFill(color);
+            rectangle.disableProperty().set(false);
+        }
+
+        for (int i = 0; i < playerShips.size(); i++) {
+            Ship shipPlayer = playerShips.get(i);
+            for (UnitPosition unitPosition : shipPlayer.getPositions()) {        ////////////////POLA gracza
+                int shipRow = unitPosition.getRow();
+                int shipColumn = unitPosition.getColumn();
+
+                ObservableList<Node> childrenComputer = gridPaneShips.getChildren();    //Kolorowanie pól komputera
+                for (Node node : childrenComputer) {
+                    Integer columnIndex = GridPane.getColumnIndex(node);
+                    Integer rowIndex = GridPane.getRowIndex(node);
+
+                    if (columnIndex == null)
+                        columnIndex = 0;
+                    if (rowIndex == null)
+                        rowIndex = 0;
+
+                    if (columnIndex == shipColumn && rowIndex == shipRow) {
+                        try {
+                            Rectangle rectangle = (Rectangle) node;
+                            rectangle.disableProperty().set(false);
+                            rectangle.setFill(color);
+                        } catch (RuntimeException exception) {
+                        }
+                    }
+                }
+
+            } ////////////////POLA gracza
+        }
+
+        for(Rectangle rectangle : shotRectanglesComputer){
+            rectangle.setFill(color);
+            rectangle.disableProperty().set(false);
+        }
+//        shotRectanglesComputer=null;
+//        shotRectanglesPlayer=null;
+
+        gameController.restartGame();
+        playerShips = gameController.playerShips;
+        computerShips = gameController.computerShips;
+
+        gameController.startFunctions();
+        System.out.println("StartWork");
+        numberOfLoops = 0;
+        newGameButton.setVisible(false);
+        gridPaneShips.disableProperty().set(false);
+        gridPaneTargets.disableProperty().set(false);
+        setEverythingVisible(true);
     }
 
     // Extra actions

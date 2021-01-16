@@ -17,7 +17,6 @@ public class GameController {
     private List<Ship> allShips = createShips();
     private Set<Ship> deadShipsComputer = new HashSet<>();
     private Set<Ship> deadShipsPlayer = new HashSet<>();
-    Scanner scanner = new Scanner(System.in);
     Utils utils = new Utils();
     Shooter shooter = new Shooter();
     private boolean isHitPlayer;
@@ -58,7 +57,6 @@ public class GameController {
             computerShot=shooter.getComputerShot();
 //        }
     }
-
 
     public void setNeighbours (Ship ship, int row, int column, boolean horizontal){
         for (int i=0; i<ship.getNumberOfSquares(); i++) {
@@ -107,7 +105,7 @@ public class GameController {
     public boolean placeShipsPlayer(Ship ship, MouseEvent e, int row, int column, boolean isHorizontal){
 
         boolean testInterference;
-        System.out.println("Wybierz położenie statku o wielkości " + ship.getNumberOfSquares());
+//        System.out.println("Wybierz położenie statku o wielkości " + ship.getNumberOfSquares());
 
         ship.deleteAllPositions();
 
@@ -158,9 +156,8 @@ public class GameController {
             testInterference=isShipInterfere(computerShips, computerShip,row, column, computerShip.isHorizontal());
         } while (testInterference);
         computerShip.setHorizontal(horizontal);
-        System.out.println("KOMPUTER: ustawiono statek " + computerShip.getLife() + " na pozycji: " + row + ", " + column);
+//        System.out.println("KOMPUTER: ustawiono statek " + computerShip.getLife() + " na pozycji: " + row + ", " + column);
     }
-
 
     public void drawShip(Ship ship, boolean isComputer, char[][] playerBoard,char[][] computerBoard){
         int row, column;
@@ -217,8 +214,25 @@ public class GameController {
         return  isShipInterfere;
     }
 
-
     public List<Ship> getPlayerShips() {
         return playerShips;
     }
-}
+
+    public void restartGame(){
+        try {
+            boardClass.fillBoardWithWater(playerBoard);
+            boardClass.fillBoardWithWater(computerBoard);
+            deadShipsComputer.clear();
+            deadShipsPlayer.clear();
+            playerShips = createShips();
+            computerShips = createShips();
+            System.out.println("playerShips size: " + playerShips.size() +
+                    "\ncomputerShips size:" + computerShips.size() +
+                    "\ndeadShipsComputer size:" + deadShipsComputer.size() +
+                    "\ndeadShipsPlayer size:" + deadShipsPlayer.size());
+        } catch (RuntimeException e){
+            System.out.println("Błąd usuwania!");
+        }
+    }
+
+    }
