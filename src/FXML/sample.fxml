@@ -285,6 +285,7 @@
                </children>
             </GridPane>
             <Button fx:id="newGameButton" layoutX="171.0" layoutY="328.0" mnemonicParsing="false" onMouseClicked="#onMouseClickedNewGame" prefHeight="31.0" prefWidth="163.0" text="New Game" />
+            <Button fx:id="horizontalButton" layoutX="405.0" layoutY="145.0" mnemonicParsing="false" onMouseClicked="#onMouseClickedHorizontal" prefHeight="25.0" prefWidth="89.0" text="horizontal" visible="false" />
          </children>
       </Pane>
    </children>

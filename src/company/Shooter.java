@@ -11,12 +11,12 @@ public class Shooter {
     public void shootPlayer(char[][] playerBoard ,char[][] computerBoard, List<Ship> playerShips, List<Ship> computerShips, Set<Ship> deadShipsPlayer, Set<Ship> deadShipsComputer){
         int row, column;
 
-        System.out.println("W który rząd oddać strzał?");
+//        System.out.println("W który rząd oddać strzał?");
         row = scanner.nextInt();
-        System.out.println("W którą kolumnę oddać strzał");
+//        System.out.println("W którą kolumnę oddać strzał");
         column = scanner.nextInt();
-        scanner.nextLine();
-        computerBoard[row][column] = 'X';
+//        scanner.nextLine();
+//        computerBoard[row][column] = 'X';
         checkIfHit(row, column, false, playerShips, computerShips, deadShipsPlayer, deadShipsComputer);
     } // Shotter
 
@@ -26,7 +26,7 @@ public class Shooter {
             row = utils.getRandomNumberInRange(0, 9);
             column = utils.getRandomNumberInRange(0, 9);
         }while(playerBoard[row][column]=='X');
-        playerBoard[row][column]='X';
+//        playerBoard[row][column]='X';
         checkIfHit(row, column, true, playerShips, computerShips, deadShipsPlayer, deadShipsComputer);
     } // Shotter
 

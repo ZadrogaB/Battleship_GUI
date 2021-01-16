@@ -35,12 +35,12 @@ public class GameController {
     public void RunGame(){
 
 //        for (int i=0;;i++){
-            System.out.println("Player Board");
-            boardClass.printPlayerBoard(playerBoard, computerBoard);
+//            System.out.println("Player Board");
+//            boardClass.printPlayerBoard(playerBoard, computerBoard);
             shooter.shootPlayer(playerBoard, computerBoard, playerShips, computerShips, deadShipsPlayer, deadShipsComputer);
             isWin("Player");
-            System.out.println("Computer Board");
-            boardClass.printComputerBoard(playerBoard, computerBoard);
+//            System.out.println("Computer Board");
+//            boardClass.printComputerBoard(playerBoard, computerBoard);
             shooter.shootComputer(playerBoard, computerBoard, playerShips, computerShips, deadShipsPlayer, deadShipsComputer);
             isWin("Computer");
 //        }
@@ -90,91 +90,63 @@ public class GameController {
         }
     }
 
-    public boolean placeShipsPlayer(Ship ship, MouseEvent e, int row, int column){
+    public boolean placeShipsPlayer(Ship ship, MouseEvent e, int row, int column, boolean isHorizontal){
 
-        String isHorizontal;
-        boolean horizontal, testInterference;
-
-
+        boolean testInterference;
         System.out.println("Wybierz położenie statku o wielkości " + ship.getNumberOfSquares());
 
+        ship.deleteAllPositions();
 
-//            do {
-                ship.deleteAllPositions();
-
-
-                UnitPosition unitPosition = new UnitPosition(row, column);
-
-                //System.out.println("unit position in placeShipPlayer checked");
-                //System.out.println("W którym rzędzie ma być statek?");
-                //row = unitPosition.getRow();
-                //System.out.println("W której kolumnie ma być statek?");
-                //column = unitPosition.getColumn();
-                //scanner.nextLine();
-                //System.out.println("Statek ma być położony horyzontalnie? (T/N)");
-//                isHorizontal = scanner.nextLine();
-                isHorizontal = "N";
-
-                if (isHorizontal.equals("N")) {
-                    for (int i = 0; i < ship.getNumberOfSquares(); i++) {
-                        ship.setHorizontal(false);
-                        //board[row + i][column] = 'S';
-                        ship.setPositions(row + i, column);
-                        setNeighbours(ship, row, column, false); //Ship ship, int row, int column, boolean horizontal
-                    }
-                } else {
-                    for (int i = 0; i < ship.getNumberOfSquares(); i++) {
-                        ship.setHorizontal(true);
-                        //board[row][column + i] = 'S';
-                        ship.setPositions(row, column + i);
-                        setNeighbours(ship, row, column, true);
-                    }
-                }
-                testInterference=isShipInterfere(playerShips, ship, row, column, ship.isHorizontal());
-                if(testInterference){
-                    System.out.println("Statki są za blisko siebie!");
-                } else {
-                    System.out.println("Row and Column: "+row+","+column);
-                    //drawShip(ship, false, playerBoard, computerBoard);
-                }
-
-//            }while(testInterference);
+        if (isHorizontal == false) {
+            for (int i = 0; i < ship.getNumberOfSquares(); i++) {
+                ship.setHorizontal(false);
+                ship.setPositions(row + i, column);
+                setNeighbours(ship, row, column, false); //Ship ship, int row, int column, boolean horizontal
+            }
+        } else {
+            for (int i = 0; i < ship.getNumberOfSquares(); i++) {
+                ship.setHorizontal(true);
+                ship.setPositions(row, column + i);
+                setNeighbours(ship, row, column, true);
+            }
+        }
+        testInterference=isShipInterfere(playerShips, ship, row, column, ship.isHorizontal());
+        if(testInterference){
+            System.out.println("Statki są za blisko siebie!");
+        }
 
         return testInterference;
-
     }
 
-    public void placeShipComputer(List<Ship> computerShips, char[][] playerBoard, char[][] computerBoard){
+    public void placeShipComputer(Ship computerShip){
         int row, column;
         Random random = new Random();
         boolean testInterference;
 
-        for (Ship ship : computerShips) {
-            //System.out.println("Losowanie pozycji statku: " + ship.getNumberOfSquares());
-            boolean horizontal = random.nextBoolean();
-            do {
-                ship.deleteAllPositions();
-                if (horizontal) {
-                    row = utils.getRandomNumberInRange(0, 9);
-                    column = utils.getRandomNumberInRange(0, 9 - ship.getNumberOfSquares());
-                    for (int i = 0; i < ship.getNumberOfSquares(); i++) {
-                        ship.setPositions(row, column + i);
-                        setNeighbours(ship, row, column, true);
-                    }
-                } else {
-                    row = utils.getRandomNumberInRange(0, 9 - ship.getNumberOfSquares());
-                    column = utils.getRandomNumberInRange(0, 9);
-                    for (int i = 0; i < ship.getNumberOfSquares(); i++) {
-                        ship.setPositions(row + i, column);
-                        setNeighbours(ship, row, column, false);
-                    }
+        boolean horizontal = random.nextBoolean();
+        do {
+            computerShip.deleteAllPositions();
+            if (horizontal) {
+                row = utils.getRandomNumberInRange(0, 9);
+                column = utils.getRandomNumberInRange(0, 9 - computerShip.getNumberOfSquares());
+                for (int i = 0; i < computerShip.getNumberOfSquares(); i++) {
+                    computerShip.setPositions(row, column + i);
+                    setNeighbours(computerShip, row, column, true);
                 }
-                testInterference=isShipInterfere(computerShips, ship,row, column, ship.isHorizontal());
-            } while (testInterference);
-            ship.setHorizontal(horizontal);
-//            drawShip(ship, true, playerBoard, computerBoard);
-        }
+            } else {
+                row = utils.getRandomNumberInRange(0, 9 - computerShip.getNumberOfSquares());
+                column = utils.getRandomNumberInRange(0, 9);
+                for (int i = 0; i < computerShip.getNumberOfSquares(); i++) {
+                    computerShip.setPositions(row + i, column);
+                    setNeighbours(computerShip, row, column, false);
+                }
+            }
+            testInterference=isShipInterfere(computerShips, computerShip,row, column, computerShip.isHorizontal());
+        } while (testInterference);
+        computerShip.setHorizontal(horizontal);
+        System.out.println("KOMPUTER: ustawiono statek " + computerShip.getLife() + " na pozycji: " + row + ", " + column);
     }
+
 
     public void drawShip(Ship ship, boolean isComputer, char[][] playerBoard,char[][] computerBoard){
         int row, column;
