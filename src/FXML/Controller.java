@@ -113,29 +113,29 @@ public class Controller {
 
                 }
 
-//                for (UnitPosition unitPosition : shipComputer.getPositions()) {
-//                    int shipRow = unitPosition.getRow();
-//                    int shipColumn = unitPosition.getColumn();
-//
-//                    ObservableList<Node> childrenComputer = gridPaneTargets.getChildren();    //Kolorowanie pól komputera
-//                    for (Node node : childrenComputer) {
-//                        Integer columnIndex = GridPane.getColumnIndex(node);
-//                        Integer rowIndex = GridPane.getRowIndex(node);
-//
-//                        if (columnIndex == null)
-//                            columnIndex = 0;
-//                        if (rowIndex == null)
-//                            rowIndex = 0;
-//
-//                        if (columnIndex == shipColumn && rowIndex == shipRow) {
-//                            try {
-//                                Rectangle rectangle = (Rectangle) node;
-//                                rectangle.setFill(Color.BLUE);
-//                            } catch (RuntimeException exception) {
-//                            }
-//                        }
-//                    }
-//                }
+                for (UnitPosition unitPosition : shipComputer.getPositions()) {        ////////////////POLA KOMPUTERA KOLOROWE
+                    int shipRow = unitPosition.getRow();
+                    int shipColumn = unitPosition.getColumn();
+
+                    ObservableList<Node> childrenComputer = gridPaneTargets.getChildren();    //Kolorowanie pól komputera
+                    for (Node node : childrenComputer) {
+                        Integer columnIndex = GridPane.getColumnIndex(node);
+                        Integer rowIndex = GridPane.getRowIndex(node);
+
+                        if (columnIndex == null)
+                            columnIndex = 0;
+                        if (rowIndex == null)
+                            rowIndex = 0;
+
+                        if (columnIndex == shipColumn && rowIndex == shipRow) {
+                            try {
+                                Rectangle rectangle = (Rectangle) node;
+                                rectangle.setFill(Color.BLUE);
+                            } catch (RuntimeException exception) {
+                            }
+                        }
+                    }
+                } ////////////////POLA KOMPUTERA KOLOROWE
             }
             if(numberOfLoops==playerShips.size()-1){
                 horizontalButton.visibleProperty().set(false);
