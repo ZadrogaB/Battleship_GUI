@@ -19,7 +19,21 @@ public class GameController {
     Scanner scanner = new Scanner(System.in);
     Utils utils = new Utils();
     Shooter shooter = new Shooter();
+    private boolean isHitPlayer;
+    private boolean isHitComputer;
+    private UnitPosition computerShot;
 
+    public boolean isHitPlayer() {
+        return isHitPlayer;
+    }
+
+    public boolean isHitComputer() {
+        return isHitComputer;
+    }
+
+    public UnitPosition getComputerShot() {
+        return computerShot;
+    }
 
     public void startFunctions(){
         boardClass.fillBoardWithWater(playerBoard);
@@ -28,21 +42,19 @@ public class GameController {
 
     }
 
-//    public void test(MouseEvent e){
-//        Controller.test(e);
-//    }
-
-    public void RunGame(){
-
+    public void RunGame(int row, int column){
 //        for (int i=0;;i++){
 //            System.out.println("Player Board");
 //            boardClass.printPlayerBoard(playerBoard, computerBoard);
-            shooter.shootPlayer(playerBoard, computerBoard, playerShips, computerShips, deadShipsPlayer, deadShipsComputer);
+        shooter.shootPlayer(playerShips, computerShips, deadShipsPlayer, deadShipsComputer, row, column);
             isWin("Player");
+            isHitPlayer = shooter.isHit();
 //            System.out.println("Computer Board");
 //            boardClass.printComputerBoard(playerBoard, computerBoard);
-            shooter.shootComputer(playerBoard, computerBoard, playerShips, computerShips, deadShipsPlayer, deadShipsComputer);
+            shooter.shootComputer(playerBoard, playerShips, computerShips, deadShipsPlayer, deadShipsComputer);
             isWin("Computer");
+            isHitComputer = shooter.isHit();
+            computerShot=shooter.getComputerShot();
 //        }
     }
 
@@ -86,7 +98,7 @@ public class GameController {
         boolean win = false;
         if(playerShips.size()==0||computerShips.size()==0){
             System.out.println("Zwycięzcą jest: " + player);
-//            System.exit(0);
+            System.exit(0);
         }
     }
 
