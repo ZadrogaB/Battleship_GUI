@@ -36,7 +36,7 @@ public class Shooter {
             column = utils.getRandomNumberInRange(0, 9);
             computerShot = new UnitPosition(row, column);
         }while(playerBoard[row][column]=='X');
-//        playerBoard[row][column]='X';
+        playerBoard[row][column]='X';
         checkIfHit(row, column, true, playerShips, computerShips, deadShipsPlayer, deadShipsComputer);
     } // Shotter
 
